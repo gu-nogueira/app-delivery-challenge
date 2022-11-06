@@ -11,47 +11,13 @@ import { AiFillEye } from 'react-icons/ai';
 import { HiEmojiSad } from 'react-icons/hi';
 import { Container, DropBox, DeleteWarning, Content } from './styles';
 
-function List({
-  category,
-  headers,
-  data,
-  options,
-  apiRoute,
-  fetchData,
-  viewContent: ViewContent,
-}) {
+function List({ headers, data, viewContent: ViewContent }) {
   const [active, setActive] = useState();
   const dropDownRef = useRef(new Array(data.length));
 
   /*
    *  Options behavior
    */
-
-  async function handleDelete(id, name) {
-    try {
-      await api.delete(`${apiRoute}/${id}`);
-      toast.success(`${name} excluído com sucesso`);
-      fetchData();
-    } catch (err) {
-      console.error(err);
-      toast.error(
-        `Não foi possível excluir ${name}, tente novamente mais tarde`
-      );
-    }
-  }
-
-  async function handleCancel(id, name) {
-    try {
-      await api.delete(`/deliveries/${id}/cancel`);
-      toast.success(`Encomenda ${name} cancelada com sucesso`);
-      fetchData();
-    } catch (err) {
-      console.error(err);
-      toast.error(
-        `Não foi possível cancelar a encomenda ${name}, tente novamente mais tarde`
-      );
-    }
-  }
 
   const handleClickOutside = useCallback(
     (e) => {
@@ -110,105 +76,18 @@ function List({
                       ref={(el) => (dropDownRef.current[index] = el)}
                       active={active === index ? true : false}
                     >
-                      {options.map((option, index) => {
-                        switch (option) {
-                          case 'view':
-                            return (
-                              <li key={index}>
-                                <button
-                                  onClick={async () =>
-                                    Modal.show({
-                                      title: `Dados de ${registry.name}`,
-                                      content: (
-                                        <ViewContent data={registry.raw} />
-                                      ),
-                                      resolver: () => 0,
-                                    })
-                                  }
-                                >
-                                  <AiFillEye className={option} /> Visualizar
-                                </button>
-                              </li>
-                            );
-
-                          case 'delete': {
-                            return (
-                              <li key={index}>
-                                <button
-                                  onClick={async () =>
-                                    Modal.show({
-                                      title: `Excluir ${registry.name}`,
-                                      content: (
-                                        <>
-                                          <DeleteWarning />
-                                          <span>
-                                            <b>Atenção:</b> esta ação é
-                                            irreverrsível! Deseja continuar?
-                                          </span>
-                                        </>
-                                      ),
-                                      cta: 'Excluir',
-                                      resolver: () =>
-                                        handleDelete(
-                                          registry.raw.id,
-                                          registry.name
-                                        ),
-                                    })
-                                  }
-                                >
-                                  <MdDelete className={option} /> Deletar
-                                </button>
-                              </li>
-                            );
+                      <li key={index}>
+                        <button
+                          onClick={() =>
+                            Modal.show({
+                              title: `Dados de ${registry.name}`,
+                              content: <ViewContent data={registry.raw} />,
+                            })
                           }
-
-                          case 'cancel': {
-                            return (
-                              <li key={index}>
-                                <button
-                                  onClick={async () =>
-                                    Modal.show({
-                                      title: `Cancelar encomenda ${registry.name}`,
-                                      content: (
-                                        <>
-                                          <DeleteWarning />
-                                          <span>
-                                            <b>Atenção:</b> esta ação é
-                                            irreverrsível! Deseja continuar?
-                                          </span>
-                                        </>
-                                      ),
-                                      cta: 'Excluir',
-                                      resolver: () =>
-                                        handleCancel(
-                                          registry.raw.delivery_id,
-                                          registry.name
-                                        ),
-                                    })
-                                  }
-                                >
-                                  <MdCancel className={option} /> Cancelar
-                                  encomenda
-                                </button>
-                              </li>
-                            );
-                          }
-
-                          default:
-                            return (
-                              <li key={index}>
-                                <Link
-                                  to={{
-                                    pathname: `/${category}/${registry.id}`,
-                                    state: registry.raw,
-                                  }}
-                                >
-                                  <MdEdit className={option} /> Editar
-                                </Link>
-                              </li>
-                            );
-                        }
-                      })}
+                        >
+                          <AiFillEye className="view" /> Visualizar
+                        </button>
+                      </li>
                     </DropBox>
                   </button>
                 </td>

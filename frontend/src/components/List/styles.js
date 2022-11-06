@@ -78,7 +78,7 @@ export const Container = styled.div`
   }
 
   /*
-   *  Mobile adjustment (TO DO)
+   *  Mobile adjustment
    */
 
   @media screen and (max-width: 1049px) {
@@ -165,42 +165,6 @@ export const Container = styled.div`
       margin-right: 5px;
     }
   }
-
-  .cancelado {
-    background: ${colors.warning1 + '40'};
-    color: ${colors.warning1};
-
-    &::before {
-      background: ${colors.warning1};
-    }
-  }
-
-  .entregue {
-    background: ${colors.green1 + '40'};
-    color: ${colors.green1};
-
-    &::before {
-      background: ${colors.green1};
-    }
-  }
-
-  .retirado {
-    background: ${colors.blue1 + '40'};
-    color: ${colors.blue1};
-
-    &::before {
-      background: ${colors.blue1};
-    }
-  }
-
-  .pendente {
-    background: ${colors.yellow1 + '40'};
-    color: ${colors.yellow1};
-
-    &::before {
-      background: ${colors.yellow1};
-    }
-  }
 `;
 
 export const DropBox = styled.ul`
@@ -228,18 +192,6 @@ export const DropBox = styled.ul`
   li {
     svg.view {
       fill: ${colors.purpleLight};
-    }
-
-    svg.edit {
-      fill: ${colors.blue1};
-    }
-
-    svg.delete {
-      fill: ${colors.warning1};
-    }
-
-    svg.cancel {
-      fill: ${colors.warning1};
     }
 
     button,

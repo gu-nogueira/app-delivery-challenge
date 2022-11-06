@@ -3,56 +3,30 @@ import { Link } from 'react-router-dom';
 import { parseISO } from 'date-fns';
 import { toast } from 'react-toastify';
 
+import DeliveriesView from './view';
+
 import api from '../../services/api';
 
 import Loader from '../../components/Loader';
-import Search from '../../components/Search';
 import List from '../../components/List';
 import Pagination from '../../components/Pagination';
 
 import { MdOutlineAdd } from 'react-icons/md';
 import { Row, Wrapper, Content } from './styles';
 
+function formatDate(date) {
+  if (!date) {
+    return <span className="pending">Pendente</span>;
+  }
+  const isoDate = parseISO(date);
+  return isoDate.toLocaleDateString('pt-BR');
+}
+
 function ViewContent({ data }) {
-  function formatCep(cep) {
-    return (Number(cep) / 1000).toString().replace('.', '-');
-  }
-
-  function formatDate(date) {
-    if (!date) {
-      return <span className="pending">Pendente</span>;
-    }
-    const isoDate = parseISO(date);
-    return isoDate.toLocaleDateString('pt-BR');
-  }
-
   if (data)
     return (
       <Content>
-        <strong>Informações da encomenda</strong>
-        <p>
-          {data.recipient.address}, {data.recipient.number}
-        </p>
-        <p>
-          {data.recipient.city} - {data.recipient.state}
-        </p>
-        <p>{formatCep(data.recipient.cep)}</p>
-        <hr />
-        <strong>Datas</strong>
-        <p>
-          <b>Retirada:</b> {formatDate(data.start_date)}
-        </p>
-        <p>
-          <b>Entrega:</b> {formatDate(data.end_date)}
-        </p>
-        <hr />
-        <strong>Assinatura do destinatário</strong>
-        {data.signature && (
-          <div>
-            <small>Passe o mouse em cima da imagem</small>
-            <img src={data.signature?.url} alt="Assinatura do destinatário" />
-          </div>
-        )}
+        <DeliveriesView delivery={data} />
       </Content>
     );
 }
@@ -61,23 +35,20 @@ function Deliveries() {
   const [loading, setLoading] = useState(false);
   const [deliveries, setDeliveries] = useState([]);
   const [deliveriesTotal, setDeliveriesTotal] = useState(0);
-  const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
   const headers = {
     id: 'ID',
-    recipient: 'Destinatário',
-    deliveryman: 'Entregador',
-    city: 'Cidade',
-    state: 'Estado',
-    status: 'Status',
+    client_name: 'Cliente',
+    delivery_date: 'Data de entega',
+    starting_address: 'Ponto de partida',
+    destiny_address: 'Ponto de destino',
   };
-  const options = ['view', 'edit', 'delete'];
+  const options = ['view'];
   const apiRoute = '/deliveries';
   const params = {
     page: currentPage,
     perPage: 20,
-    q: search,
   };
 
   async function fetchDeliveries() {
@@ -89,30 +60,25 @@ function Deliveries() {
         rows.map((delivery) => {
           delivery.raw = { ...delivery };
           delivery.id = `#${delivery.id.toString().padStart(2, 0)}`;
-          delivery.name = `encomenda ${delivery.id}`;
-          delivery.city = delivery.recipient.city;
-          delivery.state = delivery.recipient.state;
-          delivery.recipient = delivery.recipient.destiny_name;
-          if (delivery.deliveryman) {
-            delivery.deliveryman = (
-              <Wrapper flex gap={10}>
-                <span>{delivery.deliveryman.name}</span>
-              </Wrapper>
-            );
-          }
-          delivery.status = (
-            <span className={`status ${delivery.status}`}>
-              {delivery.status}
-            </span>
+          delivery.name = `Entrega ${delivery.id}`;
+          delivery.delivery_date = formatDate(delivery.delivery_date);
+          delivery.starting_address = (
+            <Wrapper text width="12vw">
+              {delivery.starting_address}
+            </Wrapper>
           );
-
+          delivery.destiny_address = (
+            <Wrapper text width="12vw">
+              {delivery.destiny_address}
+            </Wrapper>
+          );
           return delivery;
         })
       );
       setDeliveriesTotal(total);
     } catch (err) {
       console.error(err);
-      toast.error('Não foi possível carregar as encomendas');
+      toast.error('Não foi possível carregar as entregas');
     }
     setLoading(false);
   }
@@ -120,19 +86,12 @@ function Deliveries() {
   useEffect(() => {
     fetchDeliveries();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, search]);
+  }, [currentPage]);
 
   return (
     <>
-      <h2>Gerenciando encomendas</h2>
-      <Row mt={30}>
-        <Wrapper flex gap={15}>
-          <Search
-            placeholder="Buscar por encomendas"
-            onSearch={(value) => setSearch(value)}
-          />
-          <h4>{deliveriesTotal} registros encontrados</h4>
-        </Wrapper>
+      <Row>
+        <h2>Listagem de entregas</h2>
         <Link className="button" to="/deliveries/new">
           <MdOutlineAdd size={20} />
           <span>Cadastrar</span>

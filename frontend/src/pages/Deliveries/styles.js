@@ -28,9 +28,25 @@ export const Wrapper = styled.div`
     `}
 
   ${(props) =>
+    props.width &&
+    css`
+      width: ${typeof props.width === 'number'
+        ? props.width + '%'
+        : props.width};
+    `}
+
+  ${(props) =>
     props.gap &&
     css`
       gap: ${(props) => props.gap + 'px'};
+    `}
+
+  ${(props) =>
+    props.text &&
+    css`
+      text-overflow: ellipsis;
+      overflow-x: hidden;
+      white-space: pre;
     `}
 
   label {
@@ -53,7 +69,7 @@ export const Wrapper = styled.div`
 `;
 
 export const Content = styled.div`
-  min-width: 25vw;
+  width: 50vw;
 
   strong {
     font-size: 14px;
@@ -73,20 +89,15 @@ export const Content = styled.div`
     font-weight: 500;
   }
 
-  img {
-    display: block;
-    position: relative;
-    margin: -40px auto 0 auto;
-    width: 180px;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 8px;
-    transform: rotate(-0.25turn);
-    transition: transform 0.2s;
-  }
-
   img:hover {
     transform: rotate(-0.25turn) scale(1.5);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  }
+
+  /*
+   *  Mobile adjustments
+   */
+
+  @media only screen and (max-width: 767px) {
   }
 `;

@@ -2,7 +2,6 @@ import 'dotenv/config';
 
 import 'express-async-errors';
 import express from 'express';
-import { resolve } from 'path';
 import Youch from 'youch';
 import cors from 'cors';
 
@@ -30,14 +29,6 @@ class App {
       this.server.use(cors({ origin: process.env.FRONTEND_URL }));
     }
     this.server.use(express.json());
-    this.server.use(
-      '/file',
-      express.static(resolve(__dirname, '..', 'tmp', 'uploads'))
-    );
-    this.server.use(
-      '/asset',
-      express.static(resolve(__dirname, 'app', 'views', 'assets'))
-    );
   }
 
   routes() {

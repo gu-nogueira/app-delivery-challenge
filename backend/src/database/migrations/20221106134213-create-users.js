@@ -2,38 +2,23 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('recipients', {
+    await queryInterface.createTable('users', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      destiny_name: {
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      email: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
       },
-      address: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      number: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      complement: {
-        type: Sequelize.STRING,
-      },
-      state: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      city: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      cep: {
+      password_hash: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -49,6 +34,6 @@ module.exports = {
   },
 
   down: async (queryInterface) => {
-    await queryInterface.dropTable('recipients');
-  }
+    await queryInterface.dropTable('users');
+  },
 };

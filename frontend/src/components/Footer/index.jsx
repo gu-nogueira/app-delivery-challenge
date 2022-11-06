@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { Container } from './styles';
-import Logo from '../../assets/svgs/logo-white.svg';
 
 function Footer() {
   return (

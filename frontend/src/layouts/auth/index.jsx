@@ -3,15 +3,10 @@ import PropTypes from 'prop-types';
 
 import { Wrapper, Content } from './styles';
 
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-
-function DefaultLayout({ children, url }) {
+function AuthLayout({ children }) {
   return (
     <Wrapper>
-      <Header />
       <Content>{children}</Content>
-      <Footer />
     </Wrapper>
   );
 }
@@ -20,8 +15,8 @@ function DefaultLayout({ children, url }) {
  *  propTypes definition
  */
 
-DefaultLayout.propTypes = {
+AuthLayout.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-export default DefaultLayout;
+export default AuthLayout;

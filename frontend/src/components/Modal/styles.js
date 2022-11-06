@@ -100,25 +100,24 @@ export const ModalContainer = styled.div`
       box-shadow: inset 0 0 10px 10px ${colors.grey1};
     }
 
-    button {
+    button.icon {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 100%;
-      margin: 25px 0 0;
-      height: 34px;
       background: ${colors.purple};
       color: #fff;
       border: none;
       border-radius: 5px;
       transition: background 0.2s;
+      padding: 5px;
+      width: 38px;
+      height: 38px;
 
       &:hover {
         background: ${colors.purpleShadow};
       }
 
       svg {
-        margin-right: 10px;
         width: 20px;
         fill: white;
       }

@@ -206,6 +206,12 @@ export const Content = styled.div`
     font-size: 12px;
   }
 
+  .button.icon {
+    padding: 5px;
+    width: 40px;
+    height: 40px;
+  }
+
   /*
    *  Selects
    */

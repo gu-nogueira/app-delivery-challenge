@@ -48,7 +48,6 @@ function Pagination({
       </button>
       <PageList>
         {paginationRange.map((pageNumber, index) => {
-          // If the pageItem is a DOT, render the DOTS unicode character
           if (pageNumber === DOTS) {
             return (
               <PageItem key={index} className="dots">
@@ -57,7 +56,6 @@ function Pagination({
             );
           }
 
-          // Render our Page Pills
           return (
             <PageItem
               key={index}

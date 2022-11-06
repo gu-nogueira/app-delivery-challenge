@@ -4,25 +4,22 @@ import { Switch, Redirect } from 'react-router-dom';
 import Route from './Route';
 import ScrollToTop from './ScrollToTop';
 
-// ** Pages
+/*
+ *  Pages
+ */
 
+import Login from '../pages/Login';
 import Deliveries from '../pages/Deliveries';
 import DeliveriesNew from '../pages/Deliveries/new';
-import DeliveriesEdit from '../pages/Deliveries/edit';
 
 function Routes() {
   return (
     <>
       <ScrollToTop />
       <Switch>
-        <Route
-          path="/"
-          exact
-          component={() => <Redirect to="/deliveries/new" />}
-        />
-        <Route path="/deliveries" exact component={Deliveries} />
-        <Route path="/deliveries/new" component={DeliveriesNew} />
-        <Route path="/deliveries/:id" component={DeliveriesEdit} />
+        <Route path="/" exact component={Login} />
+        <Route path="/deliveries" exact component={Deliveries} isPrivate />
+        <Route path="/deliveries/new" component={DeliveriesNew} isPrivate />
 
         {/* 404 Page */}
 

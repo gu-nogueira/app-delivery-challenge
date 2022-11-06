@@ -29,5 +29,6 @@ export const Container = styled.footer`
   a {
     color: #fff;
     font-weight: 600;
+    text-decoration: underline;
   }
 `;
