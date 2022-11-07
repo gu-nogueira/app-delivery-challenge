@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import './bootstrap';
 
 import 'express-async-errors';
 import express from 'express';
@@ -23,7 +23,7 @@ class App {
   }
 
   middlewares() {
-    if (process.env.NODE_ENV == 'development') {
+    if (process.env.NODE_ENV === 'development') {
       this.server.use(cors());
     } else {
       this.server.use(cors({ origin: process.env.FRONTEND_URL }));
